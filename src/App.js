@@ -1,53 +1,69 @@
+import React, { useState } from "react";
+import { useEffect } from "react";
+import './App.css'
+import SearchIcon from './search.svg';
 
-import './App.css';
-import { useState, useEffect } from 'react';
+import MovieCard from "./MovieCard";
+// a420daff
+const API_URL= 'http://omdbapi.com?apikey=a420daff'
+const movie1={
+    "Title": "Fighting, Flying and Driving: The Stunts of Spiderman 3",
+    "Year": "2007",
+    "imdbID": "tt1132238",
+    "Type": "movie",
+    "Poster": "https://m.media-amazon.com/images/M/MV5BNTI3NDE1ZmEtMTRiMS00YTY4LTk0OGItNjY4YmI0MDM4OGM4XkEyXkFqcGdeQXVyODE2NDgwMzM@._V1_SX300.jpg"
+}
 
+const App= () => {
+    const [movies, setMovies] = useState([]);
+    const[searchTerm, setSearchTerm] = useState('');
 
-// function App() {
-//   return (
-//     <div className="App">
-      
-//     </div>
-//   );
-// }
+    const searchMovies=async(title)=>{
+        const reponse= await fetch(`${API_URL}&s=${title}`)
+        const data= await reponse.json();
+       setMovies(data.Search);
 
+    }
+    useEffect(()=>{
+        searchMovies('Spiderman');
 
-// the code below is a component for person
+    }, [])
+    return(
+        <div className="app"> 
+        <h1>MovieLand</h1>
 
-// const Person= (props) => {
-//   return(
-//     <>
-//     <h1> Name: {props.name} </h1>
-//     <h2> Last Name: {props.lastName} </h2>
-//     <h3> Age: {props.age} </h3>
+        <div className="search">
+            <input 
+            placeholder="Search for movies"
+            value={searchTerm}
+            onChange={(e)=>setSearchTerm(e.target.value)} 
+            />  
+            <img 
+            src={SearchIcon} 
+            alt="search"
+            onClick={()=>searchMovies(searchTerm)}
+             /> 
+            </div>
 
-//     </>
-//   )}
+            {movies?.length >0
+                ? (<div className="container">
+                {
+                    movies.map((movie)=>(
+                        <MovieCard movie={movie}/>
 
+                    ))}
+    
+                    </div>
 
-const App = () => {
-const [counter , setCounter] =  useState(0); /*(this is how we use state, it is like get,set method) whenever a function starts with use in react we call it hook*/
-
-useEffect(()=>{
-alert ("you have changed the counter to "+ counter);
-},[counter]) ;
-// uporer ta-amra useEffect likhi then call it as function,then it accepts one more function as its parameter jeta callback function.arekta paarameter ase jeta nam dependency arrray [] bole.
-
-  return (
-    <div className="App">
-      {/* <Person name= {'John'} lastName={'Doe'} age= {20}/>
-      <Person name= {'Abdul'} lastName={'Kalam'} age= {50}/> */}
-      {/* //this code above was part of person component, */}
-
-      <button onClick={()=>{setCounter((prevCount)=> prevCount-1)}}> - </button> 
-       {/* this one "onClick={()=>{}}" bola hoi call back function jar kono nam nai. */}
-      <h1> {counter} </h1>
-
-      <button onClick={()=>{setCounter((prevCount)=> prevCount+1)}}>+</button>
-
-
-      
-    </div>
-  );
- }
+                ) : 
+                (
+                    <div className="empty">
+                        <h2>   No movies found </h2>
+                        </div>
+                )
+            }
+            
+          </div>
+    );
+}
 export default App;
