@@ -6,13 +6,13 @@ import SearchIcon from './search.svg';
 import MovieCard from "./MovieCard";
 // a420daff
 const API_URL= 'http://omdbapi.com?apikey=a420daff'
-const movie1={
-    "Title": "Fighting, Flying and Driving: The Stunts of Spiderman 3",
-    "Year": "2007",
-    "imdbID": "tt1132238",
-    "Type": "movie",
-    "Poster": "https://m.media-amazon.com/images/M/MV5BNTI3NDE1ZmEtMTRiMS00YTY4LTk0OGItNjY4YmI0MDM4OGM4XkEyXkFqcGdeQXVyODE2NDgwMzM@._V1_SX300.jpg"
-}
+// const movie1={
+//     "Title": "Fighting, Flying and Driving: The Stunts of Spiderman 3",
+//     "Year": "2007",
+//     "imdbID": "tt1132238",
+//     "Type": "movie",
+//     "Poster": "https://m.media-amazon.com/images/M/MV5BNTI3NDE1ZmEtMTRiMS00YTY4LTk0OGItNjY4YmI0MDM4OGM4XkEyXkFqcGdeQXVyODE2NDgwMzM@._V1_SX300.jpg"
+// }
 
 const App= () => {
     const [movies, setMovies] = useState([]);
@@ -49,7 +49,7 @@ const App= () => {
                 ? (<div className="container">
                 {
                     movies.map((movie)=>(
-                        <MovieCard movie={movie}/>
+                        <MovieCard key={movie.imdbID} movie={movie}/>
 
                     ))}
     
